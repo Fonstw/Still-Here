@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     public float horizontalSpeed = 50.0f;
     public float verticalSpeed = 40.0f;
+    public float horizontalBreak = 50.0f;
+    public float verticalBreak = 40.0f;
 
     public Rigidbody2D myRigidbody;
 
@@ -19,18 +21,29 @@ public class Player : MonoBehaviour
 	void Update()
     {
         Vector2 movement = Vector2.zero;
+        float xSpeed = myRigidbody.velocity.x;
+        float ySpeed = myRigidbody.velocity.y;
 
 		if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            movement.x -= horizontalSpeed;
+            if (xSpeed > .1f)
+                movement.x -= horizontalSpeed + horizontalBreak;
+            else
+                movement.x -= horizontalSpeed;
         }
         if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            movement.x += horizontalSpeed;
+            if (xSpeed < -.1f)
+                movement.x += horizontalSpeed + horizontalBreak;
+            else
+                movement.x += horizontalSpeed;
         }
         if(Input.GetKey(KeyCode.Space))
         {
-            movement.y = verticalSpeed;
+            if (ySpeed < -.1f)
+                movement.y += verticalSpeed + verticalBreak;
+            else
+                movement.y += verticalSpeed;
         }
 
         myRigidbody.AddForce(movement * Time.deltaTime);
