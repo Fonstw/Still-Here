@@ -40,34 +40,30 @@ public class Player : MonoBehaviour
 
         if (ySpeed != 0)
             print("ySpeed: " + ySpeed);
-
-        // Only if you have fuel...
-        if (fuel > 0)
+        
+        // Take movement input
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            // Take movement input
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            {
-                if (xSpeed > .1f)
-                    movement.x -= horizontalSpeed + horizontalBreak;
-                else
-                    movement.x -= horizontalSpeed;
-            }
-            else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            {
-                if (xSpeed < -.1f)
-                    movement.x += horizontalSpeed + horizontalBreak;
-                else
-                    movement.x += horizontalSpeed;
-            }
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-            {
-                if (ySpeed < -.1f)
-                    movement.y = verticalSpeed + verticalBreak;
-                else
-                    movement.y = verticalSpeed;
+            if (xSpeed > .1f)
+                movement.x -= horizontalSpeed + horizontalBreak;
+            else
+                movement.x -= horizontalSpeed;
+        }
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        {
+            if (xSpeed < -.1f)
+                movement.x += horizontalSpeed + horizontalBreak;
+            else
+                movement.x += horizontalSpeed;
+        }
+        if (fuel > 0 && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
+        {
+            if (ySpeed < -.1f)
+                movement.y = verticalSpeed + verticalBreak;
+            else
+                movement.y = verticalSpeed;
                 
-                fuel -= fuelDrain;
-            }
+            fuel -= fuelDrain;
         }
 
         if (fuel < 1 && !(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
