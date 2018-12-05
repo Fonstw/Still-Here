@@ -560,6 +560,8 @@ MonoBehaviour:
   verticalSpeed: 1500
   horizontalBreak: 1000
   verticalBreak: 1500
+  horizontalLimit: 15
+  verticalLimit: 40
   myRigidbody: {fileID: 2016983201}
 --- !u!212 &2016983203
 SpriteRenderer:

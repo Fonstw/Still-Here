@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public float verticalSpeed = 40.0f;
     public float horizontalBreak = 50.0f;
     public float verticalBreak = 40.0f;
+    public float horizontalLimit = 50.0f;
+    public float verticalLimit = 40.0f;
 
     public Rigidbody2D myRigidbody;
 
@@ -24,7 +26,14 @@ public class Player : MonoBehaviour
         float xSpeed = myRigidbody.velocity.x;
         float ySpeed = myRigidbody.velocity.y;
 
-		if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        // For debugging purposes
+        if (xSpeed != 0)
+            print("xSpeed: " + xSpeed);
+
+        if (ySpeed != 0)
+            print("ySpeed: " + ySpeed);
+
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             if (xSpeed > .1f)
                 movement.x -= horizontalSpeed + horizontalBreak;
@@ -46,6 +55,12 @@ public class Player : MonoBehaviour
                 movement.y += verticalSpeed;
         }
 
+        // Actually push it with that 'speed'
         myRigidbody.AddForce(movement * Time.deltaTime);
+
+        // Limit how fast you can go
+        myRigidbody.velocity.Set(
+            Mathf.Clamp(myRigidbody.velocity.x, -horizontalLimit, horizontalLimit),
+            Mathf.Clamp(myRigidbody.velocity.y, -verticalLimit, verticalLimit));
 	}
 }
