@@ -10,11 +10,17 @@ public class Player : MonoBehaviour
     public float verticalBreak = 40.0f;
     public float horizontalLimit = 50.0f;
     public float verticalLimit = 40.0f;
+    public float dashMultiplier = 2.0f;
+    public float fuelDrain = .1f;
+    public float fuelRecoveryMultiplier = 2;
+
+    private float fuel = 1.0f;
 
     public Rigidbody2D myRigidbody;
+    public RectTransform fuelBar;
 
-	// Use this for initialization
-	void Start()
+    // Use this for initialization
+    void Start()
     {
 		
 	}
@@ -26,6 +32,8 @@ public class Player : MonoBehaviour
         float xSpeed = myRigidbody.velocity.x;
         float ySpeed = myRigidbody.velocity.y;
 
+        float currentlyDashing = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftShift) ? dashMultiplier : 1;
+
         // For debugging purposes
         if (xSpeed != 0)
             print("xSpeed: " + xSpeed);
@@ -33,29 +41,25 @@ public class Player : MonoBehaviour
         if (ySpeed != 0)
             print("ySpeed: " + ySpeed);
 
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        // Only if you have fuel...
+        if (fuel > 0)
         {
-            if (xSpeed > -horizontalLimit)
+            // Take movement input
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
                 if (xSpeed > .1f)
                     movement.x -= horizontalSpeed + horizontalBreak;
                 else
                     movement.x -= horizontalSpeed;
             }
-        }
-        else if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            if (xSpeed < horizontalLimit)
+            else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
                 if (xSpeed < -.1f)
                     movement.x += horizontalSpeed + horizontalBreak;
                 else
                     movement.x += horizontalSpeed;
             }
-        }
-        if(Input.GetKey(KeyCode.Space))
-        {
-            if (ySpeed < verticalLimit)
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
                 if (ySpeed < -.1f)
                     movement.y = verticalSpeed + verticalBreak;
@@ -63,8 +67,22 @@ public class Player : MonoBehaviour
                     movement.y = verticalSpeed;
             }
         }
+        // Recover / drain fuel based off keyInput
+        if (fuel < 1 && Input.anyKey == false)
+            fuel += fuelDrain * fuelRecoveryMultiplier;
+        else if (fuel > 0 && Input.anyKey)
+            fuel -= fuelDrain;
+
+        fuel = Mathf.Clamp(fuel, 0, 1);
 
         // Actually push it with that 'speed'
-        myRigidbody.AddForce(movement * Time.deltaTime);
-	}
+        myRigidbody.AddForce(movement * Time.deltaTime * currentlyDashing);
+
+        // Limit how fast you can go
+        if (myRigidbody.velocity.magnitude > horizontalLimit * currentlyDashing)
+            myRigidbody.drag = 1;
+
+        // Display fuel through bar
+        fuelBar.sizeDelta = new Vector2(200 * fuel, 25);
+    }
 }
