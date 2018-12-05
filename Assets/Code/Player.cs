@@ -35,32 +35,36 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            if (xSpeed > .1f)
-                movement.x -= horizontalSpeed + horizontalBreak;
-            else
-                movement.x -= horizontalSpeed;
+            if (xSpeed > -horizontalLimit)
+            {
+                if (xSpeed > .1f)
+                    movement.x -= horizontalSpeed + horizontalBreak;
+                else
+                    movement.x -= horizontalSpeed;
+            }
         }
-        if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        else if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            if (xSpeed < -.1f)
-                movement.x += horizontalSpeed + horizontalBreak;
-            else
-                movement.x += horizontalSpeed;
+            if (xSpeed < horizontalLimit)
+            {
+                if (xSpeed < -.1f)
+                    movement.x += horizontalSpeed + horizontalBreak;
+                else
+                    movement.x += horizontalSpeed;
+            }
         }
         if(Input.GetKey(KeyCode.Space))
         {
-            if (ySpeed < -.1f)
-                movement.y += verticalSpeed + verticalBreak;
-            else
-                movement.y += verticalSpeed;
+            if (ySpeed < verticalLimit)
+            {
+                if (ySpeed < -.1f)
+                    movement.y = verticalSpeed + verticalBreak;
+                else
+                    movement.y = verticalSpeed;
+            }
         }
 
         // Actually push it with that 'speed'
         myRigidbody.AddForce(movement * Time.deltaTime);
-
-        // Limit how fast you can go
-        myRigidbody.velocity.Set(
-            Mathf.Clamp(myRigidbody.velocity.x, -horizontalLimit, horizontalLimit),
-            Mathf.Clamp(myRigidbody.velocity.y, -verticalLimit, verticalLimit));
 	}
 }
