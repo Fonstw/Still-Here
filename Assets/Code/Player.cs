@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -65,13 +65,13 @@ public class Player : MonoBehaviour
                     movement.y = verticalSpeed + verticalBreak;
                 else
                     movement.y = verticalSpeed;
+                
+                fuel -= fuelDrain;
             }
         }
-        // Recover / drain fuel based off keyInput
-        if (fuel < 1 && Input.anyKey == false)
+
+        if (fuel < 1 && !(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
             fuel += fuelDrain * fuelRecoveryMultiplier;
-        else if (fuel > 0 && Input.anyKey)
-            fuel -= fuelDrain;
 
         fuel = Mathf.Clamp(fuel, 0, 1);
 

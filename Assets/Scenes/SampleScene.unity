@@ -1271,7 +1271,7 @@ MonoBehaviour:
   verticalLimit: 18
   dashMultiplier: 2
   fuelDrain: 0.0055
-  fuelRecoveryMultiplier: 1.2
+  fuelRecoveryMultiplier: 1.45
   myRigidbody: {fileID: 2016983201}
   fuelBar: {fileID: 486968718}
 --- !u!212 &2016983203
