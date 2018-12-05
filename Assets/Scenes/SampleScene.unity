@@ -971,9 +971,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalSpeed: 1000
-  verticalSpeed: 1500
+  verticalSpeed: 2500
   horizontalBreak: 800
-  verticalBreak: 1500
+  verticalBreak: 600
   horizontalLimit: 18
   verticalLimit: 18
   myRigidbody: {fileID: 2016983201}
