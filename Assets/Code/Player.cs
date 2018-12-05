@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
         float xSpeed = myRigidbody.velocity.x;
         float ySpeed = myRigidbody.velocity.y;
 
-        float currentlyDashing = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftShift) ? dashMultiplier : 1;
+        //float currentlyDashing = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftShift) ? dashMultiplier : 1;
 
         // For debugging purposes
         if (xSpeed != 0)
@@ -76,10 +76,10 @@ public class Player : MonoBehaviour
         fuel = Mathf.Clamp(fuel, 0, 1);
 
         // Actually push it with that 'speed'
-        myRigidbody.AddForce(movement * Time.deltaTime * currentlyDashing);
+        myRigidbody.AddForce(movement * Time.deltaTime /** currentlyDashing*/);
 
         // Limit how fast you can go
-        if (myRigidbody.velocity.magnitude > horizontalLimit * currentlyDashing)
+        if (myRigidbody.velocity.magnitude > horizontalLimit /** currentlyDashing*/)
             myRigidbody.drag = 1;
 
         // Display fuel through bar
